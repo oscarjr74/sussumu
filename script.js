@@ -31,7 +31,7 @@ const CONFIG = {
   // Se a planilha ainda não estiver configurada, usamos este
   // arquivo local como exemplo — ótimo para testar o site antes
   // de publicar a planilha de verdade.
-  CSV_EXEMPLO_LOCAL: "livros-exemplo.csv",
+  CSV_EXEMPLO_LOCAL: "data/livros-exemplo.csv",
 };
 
 // Uma cor de destaque por categoria — ajuste ou adicione livremente.
