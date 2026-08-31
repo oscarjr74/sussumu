@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sussumu Ecoa — Livraria da Escola Sussumu Hirata</title>
+<meta name="description" content="Livraria digital gratuita com livros e livretos escritos pelos alunos da Escola Estadual Deputado João Sussumu Hirata, em São Paulo. Leia ou baixe em PDF.">
+<meta property="og:title" content="Sussumu Ecoa — Livraria Digital dos Alunos">
+<meta property="og:description" content="Livros escritos por alunos da rede pública, publicados gratuitamente para leitura e download.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F6511D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="skip-link"><a href="#acervo">Pular para o acervo de livros</a></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#topo">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="34" height="34"><path d="M6 10c6-4 12-4 18 0v28c-6-4-12-4-18 0Z" fill="#F6511D"/><path d="M42 10c-6-4-12-4-18 0v28c6-4 12-4 18 0Z" fill="#0B6E4F"/></svg>
+      </span>
+      <span class="brand-text">Sussumu <strong>Ecoa</strong></span>
+    </a>
+    <nav class="topnav" aria-label="Navegação principal">
+      <a href="#sobre">O projeto</a>
+      <a href="#acervo">Livraria</a>
+      <a href="#participar">Como participar</a>
+    </nav>
+  </div>
+</header>
+
+<main id="topo">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="hero-kicker">Uma livraria gratuita, escrita por quem estuda aqui</p>
+      <h1>Palavras que a escola escreve, o mundo pode ler.</h1>
+      <p class="hero-lede">Os livros e livretos desta prateleira nasceram nas salas de aula da Escola Estadual Deputado João Sussumu Hirata, na zona sul de São Paulo. Cada capa foi pensada, cada texto foi escrito por uma turma — e agora está aqui, livre para ler ou baixar.</p>
+      <div class="hero-actions">
+        <a href="#acervo" class="btn btn-primary">Entrar na livraria</a>
+        <a href="#sobre" class="btn btn-ghost">Conhecer o projeto</a>
+      </div>
+    </div>
+    <div class="hero-shelf" aria-hidden="true">
+      <div class="shelf-row">
+        <span class="spine" style="--c:#F6511D"></span>
+        <span class="spine spine-tall" style="--c:#0B6E4F"></span>
+        <span class="spine" style="--c:#7B4FE0"></span>
+        <span class="spine spine-tall" style="--c:#1B7FA6"></span>
+        <span class="spine" style="--c:#E0A400"></span>
+        <span class="spine spine-tall" style="--c:#F6511D"></span>
+        <span class="spine" style="--c:#0B6E4F"></span>
+      </div>
+      <div class="shelf-plank"></div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre" class="sobre">
+    <div class="sobre-inner">
+      <h2>O que é o Sussumu Ecoa</h2>
+      <p>O nome já diz: <strong>ecoa</strong>. O que os alunos escrevem aqui dentro não fica só na sala — ecoa para fora, para quem quiser ler. O projeto reúne livretos produzidos pelas turmas da escola, em diferentes temas e disciplinas, e os publica gratuitamente nesta livraria digital.</p>
+      <div class="sobre-numeros" id="numeros" aria-live="polite">
+        <!-- preenchido via JS a partir dos dados reais -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ACERVO / LIVRARIA -->
+  <section id="acervo" class="acervo">
+    <div class="acervo-head">
+      <h2>A livraria</h2>
+      <p>Escolha uma estante para começar a explorar.</p>
+    </div>
+
+    <div class="filtros" id="filtros" role="tablist" aria-label="Filtrar por categoria">
+      <!-- botões de categoria preenchidos via JS -->
+    </div>
+
+    <p id="estado-carregamento" class="estado" role="status">Carregando os livros…</p>
+
+    <div class="grade" id="grade-livros">
+      <!-- cards de livro preenchidos via JS -->
+    </div>
+  </section>
+
+  <!-- COMO PARTICIPAR -->
+  <section id="participar" class="participar">
+    <div class="participar-inner">
+      <h2>Sua turma também pode publicar aqui</h2>
+      <p>Professores da escola podem adicionar o livro da própria turma a esta livraria. Basta preencher os dados do livro na planilha do projeto e enviar a capa e o PDF — sem precisar mexer em nenhum código.</p>
+      <a class="btn btn-primary" href="#" id="link-planilha">Adicionar um livro</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="rodape-inner">
+    <p><strong>Sussumu Ecoa</strong> — Escola Estadual Deputado João Sussumu Hirata</p>
+    <p class="rodape-sub">Capão Redondo, zona sul de São Paulo · Ensino Fundamental em período integral</p>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="modal-backdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <button class="modal-fechar" id="modal-fechar" aria-label="Fechar">✕</button>
+    <div class="modal-corpo" id="modal-corpo">
+      <!-- preenchido via JS -->
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

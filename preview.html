@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sussumu Ecoa — Livraria da Escola Sussumu Hirata</title>
+<meta name="description" content="Livraria digital gratuita com livros e livretos escritos pelos alunos da Escola Estadual Deputado João Sussumu Hirata, em São Paulo. Leia ou baixe em PDF.">
+<meta property="og:title" content="Sussumu Ecoa — Livraria Digital dos Alunos">
+<meta property="og:description" content="Livros escritos por alunos da rede pública, publicados gratuitamente para leitura e download.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F6511D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<style>
+/* ================= TOKENS ================= */
+:root{
+  --papel: #FFFDF7;
+  --papel-forte: #FFF6E8;
+  --tinta: #201C1A;
+  --tinta-suave: #55504B;
+  --linha: #EAE1D2;
+
+  --laranja: #F6511D;
+  --verde: #0B6E4F;
+  --roxo: #7B4FE0;
+  --azul: #1B7FA6;
+  --dourado: #C98A00;
+
+  --raio-card: 22px;
+  --sombra: 0 10px 30px -14px rgba(32, 28, 26, 0.35);
+
+  --fonte-titulo: "Baloo 2", system-ui, sans-serif;
+  --fonte-corpo: "Nunito Sans", system-ui, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--fonte-corpo);
+  font-size: 17px;
+  line-height: 1.6;
+}
+h1,h2,h3{
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 .5em;
+}
+p{ margin: 0 0 1em; }
+a{ color: inherit; }
+img{ max-width:100%; display:block; }
+
+.skip-link a{
+  position:absolute; left:-999px; top:0; background:var(--laranja); color:#fff;
+  padding:.75em 1.25em; border-radius:0 0 10px 0; z-index:200;
+}
+.skip-link a:focus{ left:0; }
+
+:focus-visible{ outline: 3px solid var(--roxo); outline-offset: 2px; }
+
+/* ================= TOPBAR ================= */
+.topbar{
+  position: sticky; top:0; z-index:50;
+  background: rgba(255,253,247,0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--linha);
+}
+.topbar-inner{
+  max-width: 1180px; margin:0 auto; padding: .9em 1.5em;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.brand{ display:flex; align-items:center; gap:.5em; text-decoration:none; }
+.brand-text{ font-family: var(--fonte-titulo); font-size: 1.25rem; color: var(--tinta); }
+.brand-text strong{ color: var(--laranja); }
+.topnav{ display:flex; gap: 1.75em; }
+.topnav a{ text-decoration:none; font-weight:700; color: var(--tinta-suave); }
+.topnav a:hover{ color: var(--laranja); }
+
+/* ================= HERO ================= */
+.hero{
+  max-width: 1180px; margin: 0 auto; padding: 4.5em 1.5em 3em;
+  display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 3em; align-items:center;
+}
+.hero-kicker{
+  font-weight:800; color: var(--laranja); margin-bottom:.6em;
+  font-size: .95rem; letter-spacing: .01em;
+}
+.hero h1{ font-size: clamp(2.1rem, 4vw, 3.1rem); max-width: 14ch; }
+.hero-lede{ max-width: 46ch; color: var(--tinta-suave); font-size: 1.08rem; }
+.hero-actions{ display:flex; gap: 1em; flex-wrap:wrap; margin-top: 1.4em; }
+
+.btn{
+  display:inline-block; text-decoration:none; font-weight:800; font-family: var(--fonte-titulo);
+  padding: .78em 1.6em; border-radius: 999px; transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn-primary{ background: var(--laranja); color:#fff; box-shadow: var(--sombra); }
+.btn-primary:hover{ transform: translateY(-2px); }
+.btn-ghost{ background: transparent; color: var(--tinta); border: 2px solid var(--tinta); }
+.btn-ghost:hover{ background: var(--tinta); color: var(--papel); }
+
+/* estante ilustrada do hero */
+.hero-shelf{ position:relative; height: 260px; }
+.shelf-row{
+  position:absolute; bottom: 26px; left:0; right:0;
+  display:flex; align-items:flex-end; justify-content:center; gap: 10px;
+}
+.spine{
+  width: 34px; height: 150px; background: var(--c);
+  border-radius: 6px 6px 3px 3px;
+  box-shadow: inset -6px 0 0 rgba(0,0,0,.08);
+}
+.spine-tall{ height: 190px; }
+.shelf-plank{
+  position:absolute; bottom:0; left: -10px; right:-10px; height: 20px;
+  background: #2B211A; border-radius: 4px;
+  box-shadow: 0 10px 18px -6px rgba(0,0,0,.35);
+}
+
+/* ================= SOBRE ================= */
+.sobre{ background: var(--papel-forte); border-top: 1px solid var(--linha); border-bottom: 1px solid var(--linha); }
+.sobre-inner{ max-width: 780px; margin:0 auto; padding: 3.5em 1.5em; text-align:center; }
+.sobre h2{ font-size: 1.9rem; }
+.sobre p{ color: var(--tinta-suave); font-size: 1.08rem; }
+.sobre-numeros{
+  display:flex; justify-content:center; gap: 2.5em; margin-top: 2em; flex-wrap:wrap;
+}
+.numero{ text-align:center; }
+.numero .valor{ font-family: var(--fonte-titulo); font-size: 2.1rem; color: var(--laranja); display:block; }
+.numero .rotulo{ color: var(--tinta-suave); font-size: .92rem; }
+
+/* ================= ACERVO ================= */
+.acervo{ max-width: 1180px; margin: 0 auto; padding: 4em 1.5em 2em; }
+.acervo-head{ text-align:center; margin-bottom: 1.8em; }
+.acervo-head h2{ font-size: 2rem; }
+.acervo-head p{ color: var(--tinta-suave); }
+
+.filtros{
+  display:flex; flex-wrap:wrap; gap: .6em; justify-content:center; margin-bottom: 2.2em;
+}
+.filtro-btn{
+  border: 2px solid var(--linha); background: #fff; color: var(--tinta);
+  font-family: var(--fonte-titulo); font-weight: 600; font-size: .92rem;
+  padding: .55em 1.2em; border-radius: 999px; cursor:pointer;
+  transition: all .15s ease;
+}
+.filtro-btn:hover{ border-color: var(--cor-cat, var(--laranja)); }
+.filtro-btn[aria-pressed="true"]{
+  background: var(--cor-cat, var(--laranja)); border-color: var(--cor-cat, var(--laranja)); color:#fff;
+}
+
+.estado{ text-align:center; color: var(--tinta-suave); }
+
+.grade{
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.6em;
+}
+
+.livro-card{
+  background:#fff; border-radius: var(--raio-card); overflow:hidden;
+  box-shadow: var(--sombra); display:flex; flex-direction:column;
+  border: 1px solid var(--linha); text-align:left; cursor:pointer;
+  padding:0; font: inherit; color: inherit;
+  transition: transform .15s ease;
+}
+.livro-card:hover{ transform: translateY(-4px); }
+.livro-capa{
+  aspect-ratio: 3/4; position:relative; overflow:hidden;
+  background: var(--cor-cat, var(--laranja));
+  display:flex; align-items:center; justify-content:center;
+}
+.livro-capa img{ width:100%; height:100%; object-fit:cover; }
+.livro-capa-fallback{
+  color:#fff; text-align:center; padding: 1.2em; font-family: var(--fonte-titulo);
+  font-size: 1.05rem; line-height:1.3;
+}
+.livro-tarja{
+  position:absolute; top:.8em; left:.8em; background: rgba(0,0,0,.35); color:#fff;
+  font-size: .72rem; font-weight:700; padding: .3em .7em; border-radius: 999px;
+}
+.livro-info{ padding: 1.1em 1.2em 1.3em; display:flex; flex-direction:column; gap:.35em; flex:1; }
+.livro-info h3{ font-size: 1.08rem; margin:0; }
+.livro-autores{ font-size: .85rem; color: var(--tinta-suave); font-weight:700; }
+.livro-sinopse-curta{
+  font-size: .88rem; color: var(--tinta-suave); margin: .3em 0 0;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+
+/* ================= PARTICIPAR ================= */
+.participar{ background: var(--tinta); color: var(--papel); }
+.participar-inner{ max-width: 680px; margin:0 auto; padding: 4em 1.5em; text-align:center; }
+.participar h2{ color:#fff; }
+.participar p{ color: #D8D2C9; }
+.participar .btn-primary{ margin-top: .6em; }
+
+/* ================= RODAPÉ ================= */
+.rodape{ padding: 2.5em 1.5em; text-align:center; }
+.rodape-inner p{ margin:0; }
+.rodape-sub{ color: var(--tinta-suave); font-size: .9rem; }
+
+/* ================= MODAL ================= */
+.modal-backdrop{
+  position:fixed; inset:0; background: rgba(32,28,26,.55);
+  display:flex; align-items:center; justify-content:center; padding: 1.2em; z-index: 100;
+}
+.modal{
+  background:#fff; border-radius: 24px; max-width: 640px; width:100%;
+  max-height: 88vh; overflow-y:auto; position:relative; box-shadow: var(--sombra);
+}
+.modal-fechar{
+  position:absolute; top: .8em; right:.8em; background: var(--papel-forte); border:none;
+  width: 38px; height:38px; border-radius: 50%; font-size: 1.1rem; cursor:pointer;
+}
+.modal-corpo{ padding: 2em; }
+.modal-capa{ width: 140px; border-radius: 12px; margin-bottom: 1em; box-shadow: var(--sombra); }
+.modal-corpo h3{ font-size: 1.5rem; }
+.modal-meta{ color: var(--tinta-suave); font-weight:700; font-size: .9rem; margin-bottom: 1em; }
+.modal-acoes{ margin-top: 1.4em; display:flex; gap: .8em; flex-wrap:wrap; }
+
+/* ================= RESPONSIVO ================= */
+@media (max-width: 860px){
+  .hero{ grid-template-columns: 1fr; padding-top: 3em; }
+  .hero-shelf{ height: 190px; order:-1; }
+  .topnav{ gap: 1em; font-size: .92rem; }
+}
+@media (max-width: 480px){
+  .topnav a:nth-child(3){ display:none; }
+  .sobre-numeros{ gap: 1.4em; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ scroll-behavior:auto !important; transition:none !important; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="skip-link"><a href="#acervo">Pular para o acervo de livros</a></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#topo">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="34" height="34"><path d="M6 10c6-4 12-4 18 0v28c-6-4-12-4-18 0Z" fill="#F6511D"/><path d="M42 10c-6-4-12-4-18 0v28c6-4 12-4 18 0Z" fill="#0B6E4F"/></svg>
+      </span>
+      <span class="brand-text">Sussumu <strong>Ecoa</strong></span>
+    </a>
+    <nav class="topnav" aria-label="Navegação principal">
+      <a href="#sobre">O projeto</a>
+      <a href="#acervo">Livraria</a>
+      <a href="#participar">Como participar</a>
+    </nav>
+  </div>
+</header>
+
+<main id="topo">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="hero-kicker">Uma livraria gratuita, escrita por quem estuda aqui</p>
+      <h1>Palavras que a escola escreve, o mundo pode ler.</h1>
+      <p class="hero-lede">Os livros e livretos desta prateleira nasceram nas salas de aula da Escola Estadual Deputado João Sussumu Hirata, na zona sul de São Paulo. Cada capa foi pensada, cada texto foi escrito por uma turma — e agora está aqui, livre para ler ou baixar.</p>
+      <div class="hero-actions">
+        <a href="#acervo" class="btn btn-primary">Entrar na livraria</a>
+        <a href="#sobre" class="btn btn-ghost">Conhecer o projeto</a>
+      </div>
+    </div>
+    <div class="hero-shelf" aria-hidden="true">
+      <div class="shelf-row">
+        <span class="spine" style="--c:#F6511D"></span>
+        <span class="spine spine-tall" style="--c:#0B6E4F"></span>
+        <span class="spine" style="--c:#7B4FE0"></span>
+        <span class="spine spine-tall" style="--c:#1B7FA6"></span>
+        <span class="spine" style="--c:#E0A400"></span>
+        <span class="spine spine-tall" style="--c:#F6511D"></span>
+        <span class="spine" style="--c:#0B6E4F"></span>
+      </div>
+      <div class="shelf-plank"></div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre" class="sobre">
+    <div class="sobre-inner">
+      <h2>O que é o Sussumu Ecoa</h2>
+      <p>O nome já diz: <strong>ecoa</strong>. O que os alunos escrevem aqui dentro não fica só na sala — ecoa para fora, para quem quiser ler. O projeto reúne livretos produzidos pelas turmas da escola, em diferentes temas e disciplinas, e os publica gratuitamente nesta livraria digital.</p>
+      <div class="sobre-numeros" id="numeros" aria-live="polite">
+        <!-- preenchido via JS a partir dos dados reais -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ACERVO / LIVRARIA -->
+  <section id="acervo" class="acervo">
+    <div class="acervo-head">
+      <h2>A livraria</h2>
+      <p>Escolha uma estante para começar a explorar.</p>
+    </div>
+
+    <div class="filtros" id="filtros" role="tablist" aria-label="Filtrar por categoria">
+      <!-- botões de categoria preenchidos via JS -->
+    </div>
+
+    <p id="estado-carregamento" class="estado" role="status">Carregando os livros…</p>
+
+    <div class="grade" id="grade-livros">
+      <!-- cards de livro preenchidos via JS -->
+    </div>
+  </section>
+
+  <!-- COMO PARTICIPAR -->
+  <section id="participar" class="participar">
+    <div class="participar-inner">
+      <h2>Sua turma também pode publicar aqui</h2>
+      <p>Professores da escola podem adicionar o livro da própria turma a esta livraria. Basta preencher os dados do livro na planilha do projeto e enviar a capa e o PDF — sem precisar mexer em nenhum código.</p>
+      <a class="btn btn-primary" href="#" id="link-planilha">Adicionar um livro</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="rodape-inner">
+    <p><strong>Sussumu Ecoa</strong> — Escola Estadual Deputado João Sussumu Hirata</p>
+    <p class="rodape-sub">Capão Redondo, zona sul de São Paulo · Ensino Fundamental em período integral</p>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="modal-backdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <button class="modal-fechar" id="modal-fechar" aria-label="Fechar">✕</button>
+    <div class="modal-corpo" id="modal-corpo">
+      <!-- preenchido via JS -->
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+/* =========================================================
+   SUSSUMU ECOA — script.js
+   -----------------------------------------------------------
+   O QUE ESTE ARQUIVO FAZ:
+   1) Busca a lista de livros numa planilha do Google (publicada
+      como CSV) — assim qualquer professor pode adicionar um
+      livro só editando a planilha, sem mexer em código.
+   2) Monta os cartões da vitrine, os filtros por categoria e
+      a ficha de cada livro (modal), tudo automaticamente.
+
+   O QUE VOCÊ PRECISA CONFIGURAR (veja CONFIG abaixo):
+   - SHEET_CSV_URL: o link da planilha publicada como CSV.
+   - LINK_PLANILHA_EDICAO: o link para a planilha "de verdade",
+     usado no botão "Adicionar um livro".
+
+   Veja o arquivo CONFIGURACAO.md para o passo a passo completo.
+   ========================================================= */
+
+const CONFIG = {
+  // Cole aqui o link da planilha publicada como CSV.
+  // (Arquivo > Compartilhar > Publicar na web > formato CSV)
+  SHEET_CSV_URL: "",
+
+  // Link da planilha original, para professores editarem.
+  LINK_PLANILHA_EDICAO: "",
+
+  // Pastas do repositório onde ficam os arquivos.
+  PASTA_CAPAS: "livros/capas/",
+  PASTA_PDFS: "livros/pdfs/",
+
+  // Se a planilha ainda não estiver configurada, usamos este
+  // arquivo local como exemplo — ótimo para testar o site antes
+  // de publicar a planilha de verdade.
+  CSV_EXEMPLO_LOCAL: "data/livros-exemplo.csv",
+};
+
+// Uma cor de destaque por categoria — ajuste ou adicione livremente.
+const CORES_CATEGORIA = {
+  "Consciência Negra": "#F6511D",
+  "Meio Ambiente": "#0B6E4F",
+  "Poesia": "#7B4FE0",
+  "Matemática": "#1B7FA6",
+  "História": "#C98A00",
+};
+const COR_PADRAO = "#5B5450";
+
+/* ---------------------------------------------------------- */
+
+const grade = document.getElementById("grade-livros");
+const filtrosEl = document.getElementById("filtros");
+const estadoEl = document.getElementById("estado-carregamento");
+const numerosEl = document.getElementById("numeros");
+const linkPlanilhaBtn = document.getElementById("link-planilha");
+
+let TODOS_LIVROS = [];
+let categoriaAtiva = "Todos";
+
+init();
+
+async function init() {
+  if (CONFIG.LINK_PLANILHA_EDICAO) {
+    linkPlanilhaBtn.href = CONFIG.LINK_PLANILHA_EDICAO;
+  } else {
+    linkPlanilhaBtn.title = "Configure LINK_PLANILHA_EDICAO em script.js";
+  }
+
+  try {
+    const linhas = await carregarLinhasCSV();
+    TODOS_LIVROS = linhas.map(normalizarLivro).filter((l) => l.titulo);
+    estadoEl.remove();
+    montarFiltros();
+    renderizarGrade();
+    montarNumeros();
+  } catch (erro) {
+    console.error(erro);
+    estadoEl.textContent =
+      "Não foi possível carregar os livros agora. Confira a configuração da planilha em script.js (SHEET_CSV_URL).";
+  }
+}
+
+async function carregarLinhasCSV() {
+  const url = CONFIG.SHEET_CSV_URL || CONFIG.CSV_EXEMPLO_LOCAL;
+  const resposta = await fetch(url, { cache: "no-store" });
+  if (!resposta.ok) throw new Error("Falha ao buscar CSV: " + resposta.status);
+  const texto = await resposta.text();
+  const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
+  return resultado.data;
+}
+
+function normalizarLivro(linha) {
+  const arquivoParaCaminho = (valor, pasta) => {
+    if (!valor) return "";
+    valor = valor.trim();
+    if (/^https?:\/\//i.test(valor)) return valor;
+    return pasta + valor;
+  };
+
+  return {
+    titulo: (linha.titulo || "").trim(),
+    autores: (linha.autores || "").trim(),
+    turma: (linha.turma || "").trim(),
+    categoria: (linha.categoria || "Sem categoria").trim(),
+    sinopse: (linha.sinopse || "").trim(),
+    capa: arquivoParaCaminho(linha.link_capa || linha.capa, CONFIG.PASTA_CAPAS),
+    pdf: arquivoParaCaminho(linha.link_pdf || linha.pdf, CONFIG.PASTA_PDFS),
+  };
+}
+
+function montarFiltros() {
+  const categorias = ["Todos", ...new Set(TODOS_LIVROS.map((l) => l.categoria))];
+  filtrosEl.innerHTML = "";
+  categorias.forEach((cat) => {
+    const btn = document.createElement("button");
+    btn.className = "filtro-btn";
+    btn.type = "button";
+    btn.textContent = cat;
+    btn.setAttribute("aria-pressed", cat === categoriaAtiva ? "true" : "false");
+    btn.style.setProperty("--cor-cat", CORES_CATEGORIA[cat] || COR_PADRAO);
+    btn.addEventListener("click", () => {
+      categoriaAtiva = cat;
+      [...filtrosEl.children].forEach((b) =>
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false")
+      );
+      renderizarGrade();
+    });
+    filtrosEl.appendChild(btn);
+  });
+}
+
+function renderizarGrade() {
+  const lista =
+    categoriaAtiva === "Todos"
+      ? TODOS_LIVROS
+      : TODOS_LIVROS.filter((l) => l.categoria === categoriaAtiva);
+
+  grade.innerHTML = "";
+
+  if (lista.length === 0) {
+    grade.innerHTML = `<p class="estado">Ainda não há livros nesta categoria.</p>`;
+    return;
+  }
+
+  lista.forEach((livro) => grade.appendChild(criarCard(livro)));
+}
+
+function criarCard(livro) {
+  const cor = CORES_CATEGORIA[livro.categoria] || COR_PADRAO;
+
+  const card = document.createElement("button");
+  card.className = "livro-card";
+  card.type = "button";
+  card.setAttribute("aria-label", `Ver detalhes de ${livro.titulo}`);
+
+  const iniciais = livro.titulo
+    .split(" ")
+    .filter((p) => p.length > 2)
+    .slice(0, 2)
+    .map((p) => p[0])
+    .join("");
+
+  card.innerHTML = `
+    <div class="livro-capa" style="--cor-cat:${cor}">
+      <span class="livro-tarja">${escapeHTML(livro.categoria)}</span>
+      ${
+        livro.capa
+          ? `<img src="${livro.capa}" alt="Capa de ${escapeHTML(livro.titulo)}" loading="lazy" onerror="this.parentElement.querySelector('.livro-capa-fallback').style.display='flex'; this.remove();">`
+          : ""
+      }
+      <div class="livro-capa-fallback" style="${livro.capa ? "display:none;" : ""}">${escapeHTML(livro.titulo)}</div>
+    </div>
+    <div class="livro-info">
+      <h3>${escapeHTML(livro.titulo)}</h3>
+      <p class="livro-autores">${escapeHTML(livro.turma ? livro.turma : livro.autores)}</p>
+      <p class="livro-sinopse-curta">${escapeHTML(livro.sinopse)}</p>
+    </div>
+  `;
+
+  card.addEventListener("click", () => abrirModal(livro));
+  return card;
+}
+
+/* ---------------------------------------------------------- */
+/* MODAL                                                       */
+/* ---------------------------------------------------------- */
+
+const backdrop = document.getElementById("modal-backdrop");
+const modalCorpo = document.getElementById("modal-corpo");
+const modalFechar = document.getElementById("modal-fechar");
+
+function abrirModal(livro) {
+  const cor = CORES_CATEGORIA[livro.categoria] || COR_PADRAO;
+  modalCorpo.innerHTML = `
+    ${
+      livro.capa
+        ? `<img class="modal-capa" src="${livro.capa}" alt="Capa de ${escapeHTML(livro.titulo)}">`
+        : ""
+    }
+    <p class="modal-meta" style="color:${cor}">${escapeHTML(livro.categoria)}</p>
+    <h3>${escapeHTML(livro.titulo)}</h3>
+    <p class="modal-meta">${escapeHTML(livro.turma ? livro.turma : "")} ${
+    livro.autores ? "· " + escapeHTML(livro.autores) : ""
+  }</p>
+    <p>${escapeHTML(livro.sinopse) || "Sinopse em breve."}</p>
+    <div class="modal-acoes">
+      ${
+        livro.pdf
+          ? `<a class="btn btn-primary" href="${livro.pdf}" target="_blank" rel="noopener">Ler o livro</a>
+             <a class="btn btn-ghost" href="${livro.pdf}" download>Baixar PDF</a>`
+          : `<p class="modal-meta">PDF ainda não disponível.</p>`
+      }
+    </div>
+  `;
+  backdrop.hidden = false;
+  modalFechar.focus();
+}
+
+function fecharModal() {
+  backdrop.hidden = true;
+}
+
+modalFechar.addEventListener("click", fecharModal);
+backdrop.addEventListener("click", (e) => {
+  if (e.target === backdrop) fecharModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !backdrop.hidden) fecharModal();
+});
+
+/* ---------------------------------------------------------- */
+/* NÚMEROS (calculados a partir dos dados reais)                */
+/* ---------------------------------------------------------- */
+
+function montarNumeros() {
+  const totalLivros = TODOS_LIVROS.length;
+  const totalCategorias = new Set(TODOS_LIVROS.map((l) => l.categoria)).size;
+  const totalTurmas = new Set(
+    TODOS_LIVROS.map((l) => l.turma).filter(Boolean)
+  ).size;
+
+  const itens = [
+    { valor: totalLivros, rotulo: totalLivros === 1 ? "livro publicado" : "livros publicados" },
+    { valor: totalCategorias, rotulo: totalCategorias === 1 ? "estante" : "estantes" },
+    { valor: totalTurmas, rotulo: totalTurmas === 1 ? "turma autora" : "turmas autoras" },
+  ];
+
+  numerosEl.innerHTML = itens
+    .map(
+      (i) => `<div class="numero"><span class="valor">${i.valor}</span><span class="rotulo">${i.rotulo}</span></div>`
+    )
+    .join("");
+}
+
+/* ---------------------------------------------------------- */
+
+function escapeHTML(str) {
+  const div = document.createElement("div");
+  div.textContent = str || "";
+  return div.innerHTML;
+}
+
+</script>
+</body>
+</html>
